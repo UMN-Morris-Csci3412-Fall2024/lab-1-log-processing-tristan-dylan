@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #Creates a temporary scratch directory
+here=`pwd`
 scratch=$(mktemp -d)
 echo "Created scratch directory: $scratch"
 
@@ -30,8 +31,8 @@ echo "Created country distribution"
 echo "Assembled report"
 
 #Moves the report to the current directory
-mv "$scratch"/failed_login_summary.html "$2"
-echo "Moved report to $2"
+mv "$scratch"/failed_login_summary.html "${here}"
+echo "Moved report to ${here}"
 
 #Removes the scratch directory
 rm -r "$scratch"
