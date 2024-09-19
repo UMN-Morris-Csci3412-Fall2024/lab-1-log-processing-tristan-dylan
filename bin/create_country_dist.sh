@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Move to specified directory
-here=`pwd`
-cd "$1"
+here=$(pwd)
+cd "$1" || exit
 echo "Moved to $(pwd)"
 
 # Temporary file to store all IP addresses
@@ -32,9 +32,9 @@ echo "extracted country codes and counted occurences"
 
 # Format the data for the Geo Chart
 awk '{print "data.addRow([\x27" $2 "\x27, " $1 "]);"}' "$countrytempfile" > "$tempfile"
-echo "printed:" $tempfile
+echo "printed:" "$tempfile"
 
-cd "${here}"
+cd "${here}" || exit
 
 # Wrap the data section with header and footer
 ./bin/wrap_contents.sh "$tempfile" ./html_components/country_dist "${1}/country_dist.html"

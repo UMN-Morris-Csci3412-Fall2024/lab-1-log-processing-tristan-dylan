@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Move to the specified directory
-cd $1
+cd "$1" || exit
 
 # extract the needed data from the log files
 cat var/log/* | awk '/Failed password for invalid user/ {

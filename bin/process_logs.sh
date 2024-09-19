@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Creates a temporary scratch directory
-here=`pwd`
+here=$(pwd)
 scratch=$(mktemp -d)
 echo "Created scratch directory: $scratch"
 
@@ -15,7 +15,6 @@ for file in "$@"; do
     echo "Unzipped $file to $machineNameDir"
     ./bin/process_client_logs.sh "$machineNameDir"
 done
-echo  $(pwd)
 echo "Processing logs complete"
 
 #Calls create_username_dist.sh, create_hours_dist.sh, and create_country_dist.sh on the scratch directory

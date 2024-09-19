@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Move to the specified directory
-here=`pwd`
-cd $1
+here=$(pwd)
+cd "$1" || exit
 
 # Temporary file to store all usernames
 temp_file=$(mktemp)
@@ -19,7 +19,7 @@ sort "$temp_file" | uniq -c | awk '{
     printf "data.addRow([\x27%s\x27, %d]);\n", $2, $1
 }' >> username_dist_data.txt
 
-cd "${here}"
+cd "${here}" || exit
 
 # Wrap the data section with header and footer
 ./bin/wrap_contents.sh "${1}/username_dist_data.txt" ./html_components/username_dist "${1}/username_dist.html"
