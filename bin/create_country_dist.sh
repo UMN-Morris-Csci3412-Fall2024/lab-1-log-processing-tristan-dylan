@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Move to specified directory
+here=`pwd`
 cd "$1"
 echo "Moved to $(pwd)"
 
@@ -21,7 +22,7 @@ echo "sorted and extracted IP adresses"
 
 # Join IP addresses with country map
 joinedtempfile=$(mktemp)
-join -1 1 -2 1 "$sortedtempfile" <(sort ../etc/country_IP_map.txt) > "$joinedtempfile"
+join -1 1 -2 1 "$sortedtempfile" <(sort "${here}/etc/country_IP_map.txt") > "$joinedtempfile"
 echo "joined IP addresses with country_IP_map"
 
 # Extract country codes and count occurrences
@@ -33,7 +34,10 @@ echo "extracted country codes and counted occurences"
 awk '{print "data.addRow([\x27" $2 "\x27, " $1 "]);"}' "$countrytempfile" > "$tempfile"
 echo "printed:" $tempfile
 
+cd "${here}"
+
 # Wrap the data section with header and footer
-../bin/wrap_contents.sh "$tempfile" ../html_components/country_dist country_dist.html
+./bin/wrap_contents.sh "$tempfile" ./html_components/country_dist "${1}/country_dist.html"
+
 # Clean up temporary files
 rm "$tempfile" "$sortedtempfile" "$joinedtempfile" "$countrytempfile"

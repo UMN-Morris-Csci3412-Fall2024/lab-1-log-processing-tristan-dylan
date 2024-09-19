@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Move to the specified directory
+here=`pwd`
 cd $1
 
 # Temporary file to store all times
@@ -18,8 +19,10 @@ sort "$temp_file" | uniq -c | awk '{
     printf "data.addRow([\x27%s\x27, %d]);\n", $2, $1
 }' >> hours_dist_data.txt
 
+cd "${here}"
+
 # Wrap the data section with header and footer
-../bin/wrap_contents.sh hours_dist_data.txt ../html_components/hours_dist hours_dist.html
+./bin/wrap_contents.sh "${1}/hours_dist_data.txt" ./html_components/hours_dist "${1}/hours_dist.html"
 
 # Clean up temporary file
-rm "$temp_file" hours_dist_data.txt
+rm "$temp_file" "${1}/hours_dist_data.txt"
